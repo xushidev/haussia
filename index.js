@@ -3,16 +3,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 // Require the necessary discord.js classes
-const { Client, Collection, Events, GatewayIntentBits, MessageFlags } = require("discord.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { token } = require("./config.json");
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-// When the client is ready, run this code (only once).
-client.once(Events.ClientReady, (readyClient) => {
-	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-});
 
 // creates command collection
 client.commands = new Collection(); 
@@ -21,7 +16,6 @@ client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 // Read the commands directory
 const commandFolders = fs.readdirSync(foldersPath);
-
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
@@ -38,38 +32,18 @@ for (const folder of commandFolders) {
 	}
 }
 
-// Listens for the running of a command 
-client.on(Events.InteractionCreate, async (interaction) => {
-	if (!interaction.isChatInputCommand()) return; 
-	// Get the command's name
-	const command = interaction.client.commands.get(interaction.commandName);
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith('.js'));
 
-	// If the command doesn't exists, log an error
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
 	}
-
-	// If the command exists, then run the execute function in the command
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		// If it gives an error, then log and return the error as message
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({
-				content: 'There was an error while executing this command!',
-				flags: MessageFlags.Ephemeral,
-			});
-		} else {
-			await interaction.reply({
-				content: 'There was an error while executing this command!',
-				flags: MessageFlags.Ephemeral,
-			});
-		}
-	}
-});
-
+}
 
 // Log in to Discord with your client's token
 client.login(token);
