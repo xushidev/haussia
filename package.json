@@ -10,8 +10,14 @@
     "type": "git",
     "url": "https://git.xushidev.cc/Xushi/haussia.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "DiscordJS",
+    "Discord-bot"
+  ],
+  "author": "Xushi",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "discord.js": "^14.26.4"
+  }
 }
