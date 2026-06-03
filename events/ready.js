@@ -2,10 +2,10 @@
 const { Events } = require('discord.js');
 
 module.exports = {
-	name: Events.ClientReady,
-	once: true,
-	execute(client) {
+    name: Events.ClientReady,
+    once: true,
+    execute(client) {
         // When the client is ready, run this code (only once).
-		console.log(`Ready! Logged in as ${client.user.tag}`);
-	},
+        console.log(`Ready! Logged in as ${client.user.tag}`);
+    },
 };

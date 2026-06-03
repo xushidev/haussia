@@ -4,16 +4,20 @@ const { Events, MessageFlags } = require('discord.js');
 // exports the file
 module.exports = {
     // name of the exported module
-	name: Events.InteractionCreate,
+    name: Events.InteractionCreate,
     // Function for execute
-	async execute(interaction) {
-		if (!interaction.isChatInputCommand()) return; 
+    async execute(interaction) {
+        if (!interaction.isChatInputCommand()) return;
         // Get the command's name
-        const command = interaction.client.commands.get(interaction.commandName);
+        const command = interaction.client.commands.get(
+            interaction.commandName,
+        );
 
         // If the command doesn't exists, log an error
         if (!command) {
-            console.error(`No command matching ${interaction.commandName} was found.`);
+            console.error(
+                `No command matching ${interaction.commandName} was found.`,
+            );
             return;
         }
 
@@ -34,7 +38,6 @@ module.exports = {
                     flags: MessageFlags.Ephemeral,
                 });
             }
-	}
-	},
+        }
+    },
 };
-
