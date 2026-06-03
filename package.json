@@ -19,5 +19,12 @@
   "type": "commonjs",
   "dependencies": {
     "discord.js": "^14.26.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.0.0",
+    "@eslint/markdown": "^8.0.2",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0"
   }
 }
