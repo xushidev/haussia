@@ -39,7 +39,7 @@ for (const folder of commandFolders) {
 }
 
 // Listens for the running of a command 
-client.on(Events.InteractionCreate, (interaction) => {
+client.on(Events.InteractionCreate, async (interaction) => {
 	if (!interaction.isChatInputCommand()) return; 
 	// Get the command's name
 	const command = interaction.client.commands.get(interaction.commandName);
