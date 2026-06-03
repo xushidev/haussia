@@ -11,6 +11,8 @@ module.exports = {
 
         if (message.content.startsWith('!ha')) {
             console.log('prefix found');
+            // Test for channel fetching
+            // message.client.channels.fetch('').then(channel => console.log(channel.name)).catch(console.error)
         }
 
         /*
