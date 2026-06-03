@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js"
+    "start": "node index.js",
+    "deploy::dev": "node deploy/cmd.js",
+    "deploy::prod": "node deploy/cmd-global.js"
   },
   "repository": {
     "type": "git",
