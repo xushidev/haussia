@@ -1,13 +1,14 @@
 // Module to check for prefix
 const { Events } = require('discord.js');
+const { globalPrefix } = require('../config.json');
+
 
 module.exports = {
     name: Events.MessageCreate,
     execute(message) {
         // If the prefix sent is by a bot, then do nothing
         if (message.author.bot) return;
-
-        let globalPrefix = 'h!';
+        
         let args;
 
         // handle messages in a guild
