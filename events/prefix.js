@@ -1,7 +1,17 @@
 // Module to check for prefix
 const { Events } = require('discord.js');
 const { globalPrefix } = require('../config.json');
+const { Keyv } = require('keyv');
+const { KeyvSqlite } = require('@keyv/sqlite');
+const path = require('path');
+const dbPath = path.resolve(__dirname, '../data/prefix.sqlite');
 
+// Database where prefixes are stored
+const prefixes = new Keyv({
+    store: new KeyvSqlite({
+        uri: `sqlite://${dbPath}`
+    })
+});
 
 module.exports = {
     name: Events.MessageCreate,
@@ -18,11 +28,11 @@ module.exports = {
             if (message.content.startsWith(globalPrefix)) {
                 prefix = globalPrefix;
             }
-            /*else {
+            else {
                 // check the guild-level prefix
                 const guildPrefix = await prefixes.get(message.guild.id);
                 if (message.content.startsWith(guildPrefix)) prefix = guildPrefix;
-            }*/
+            }
 
             // if we found a prefix, setup args; otherwise, this isn't a command
             if (!prefix) return;
@@ -40,7 +50,16 @@ module.exports = {
         const commandName = args.shift().toLowerCase();
         // h!test 1 2 3 -> "test"
 
-        // run commands based on the name
+        if (commandName === 'prefix') {
+            // if there's at least one argument, set the prefix
+            if (args.length) {
+                await prefixes.set(message.guild.id, args[0]);
+                return message.channel.send(`Successfully set prefix to \`${args[0]}\``);
+            }
+
+            return message.channel.send(`Prefix is \`${(await prefixes.get(message.guild.id)) || globalPrefix}\``);
+        }
+
         // Get the command's name
         const command = message.client.commands.get(
             commandName
