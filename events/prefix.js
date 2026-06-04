@@ -3,14 +3,16 @@ const { Events } = require('discord.js');
 const { globalPrefix } = require('../config.json');
 const { Keyv } = require('keyv');
 const { KeyvSqlite } = require('@keyv/sqlite');
+
+// Resolves the path into an absolute path
 const path = require('path');
 const dbPath = path.resolve(__dirname, '../data/prefix.sqlite');
 
 // Database where prefixes are stored
 const prefixes = new Keyv({
     store: new KeyvSqlite({
-        uri: `sqlite://${dbPath}`
-    })
+        uri: `sqlite://${dbPath}`,
+    }),
 });
 
 module.exports = {
@@ -27,23 +29,17 @@ module.exports = {
 
             if (message.content.startsWith(globalPrefix)) {
                 prefix = globalPrefix;
-            }
-            else {
+            } else {
                 // check the guild-level prefix
                 const guildPrefix = await prefixes.get(message.guild.id);
-                if (message.content.startsWith(guildPrefix)) prefix = guildPrefix;
+                if (message.content.startsWith(guildPrefix))
+                    prefix = guildPrefix;
             }
 
             // if we found a prefix, setup args; otherwise, this isn't a command
             if (!prefix) return;
             args = message.content.slice(prefix.length).trim().split(/\s+/);
             // h!test 1 2 3 -> ["test", '1', '2', '3']
-        } else {
-            // handle DMs
-            const slice = message.content.startsWith(globalPrefix)
-                ? globalPrefix.length
-                : 0;
-            args = message.content.slice(slice).split(/\s+/);
         }
 
         // get the first space-delimited argument after the prefix as the command
@@ -54,21 +50,21 @@ module.exports = {
             // if there's at least one argument, set the prefix
             if (args.length) {
                 await prefixes.set(message.guild.id, args[0]);
-                return message.channel.send(`Successfully set prefix to \`${args[0]}\``);
+                return message.channel.send(
+                    `Successfully set prefix to \`${args[0]}\``,
+                );
             }
 
-            return message.channel.send(`Prefix is \`${(await prefixes.get(message.guild.id)) || globalPrefix}\``);
+            return message.channel.send(
+                `Prefix is \`${(await prefixes.get(message.guild.id)) || globalPrefix}\``,
+            );
         }
 
         // Get the command's name
-        const command = message.client.commands.get(
-            commandName
-        );
+        const command = message.client.commands.get(commandName);
         // If the command doesn't exists, log an error
         if (!command) {
-            console.error(
-                `No command matching ${commandName} was found.`,
-            );
+            console.error(`No command matching ${commandName} was found.`);
             return;
         }
 
@@ -90,6 +86,5 @@ module.exports = {
                 });
             }
         }
-
     },
 };
