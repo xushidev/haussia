@@ -1,6 +1,6 @@
 // Module to check for prefix
 const { Events } = require('discord.js');
-const { globalPrefix } = require('../config.json');
+const { globalPrefix } = require('../../config.json');
 const { Keyv } = require('keyv');
 const { KeyvSqlite } = require('@keyv/sqlite');
 
