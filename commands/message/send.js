@@ -12,9 +12,12 @@ module.exports = {
                 .setRequired(true),
         )
         .addStringOption((option) =>
-            option.setName('message').setRequired(true),
+            option
+                .setName('message')
+                .setDescription('The message to be sent')
+                .setRequired(true),
         ),
-    async execute(interaction) {
-        await interaction.reply('Pong!');
+    async execute(...interaction) {
+        await interaction[0].reply('Pong!');
     },
 };
