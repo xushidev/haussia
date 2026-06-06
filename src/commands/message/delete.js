@@ -7,8 +7,8 @@ module.exports = {
         .setDescription('Deletes a certain message sent by the bot!')
         .addStringOption((option) =>
             option
-                .setName('message-id')
-                .setDescription('The id message to be deleted')
+                .setName('message-link')
+                .setDescription('The link of the message to be deleted')
                 .setRequired(true),
         ),
     async execute({ interaction, message, args }) {

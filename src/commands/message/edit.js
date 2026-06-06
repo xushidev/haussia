@@ -7,8 +7,8 @@ module.exports = {
         .setDescription('Edits a certain message sent by the bot!')
         .addStringOption((option) =>
             option
-                .setName('message-id')
-                .setDescription('The id message to be edited')
+                .setName('message-link')
+                .setDescription('The link of the message to be edited')
                 .setRequired(true),
         )
         .addStringOption((option) =>
@@ -18,6 +18,13 @@ module.exports = {
                 .setRequired(true),
         ),
     async execute({ interaction, message, args }) {
-        await interaction.reply('Pong!');
+        if (interaction) {
+            const message_id = interaction.options.getString('message-link');
+            const message = interaction.options.getString('message');
+
+
+        } else {
+
+        }
     },
 };
