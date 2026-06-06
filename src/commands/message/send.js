@@ -28,18 +28,17 @@ module.exports = {
             await channel.send(msg);
         } else {
             // Receives: interaction, ["arg1", "arg2", ...]
-            
-            
+
             // unfortunately args come as [["arg"]]
             args = args[0];
 
             // Get the channel id as first arg
             const channelId = args.shift();
             const channel = await message.client.channels.fetch(channelId);
-            
+
             // Get the message as 2nd arg (and join them back together)
-            const msg = args.join(" ");
-            
+            const msg = args.join(' ');
+
             // Sends the message to the channel:
             await channel.send(msg);
         }
