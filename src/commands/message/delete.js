@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('delete')
         .setDescription('Deletes a certain message sent by the bot!'),
-    async execute(interaction) {
+    async execute({ interaction, message, args }) {
         await interaction.reply('Pong!');
     },
 };

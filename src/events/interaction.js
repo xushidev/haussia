@@ -23,7 +23,7 @@ module.exports = {
 
         // If the command exists, then run the execute function in the command
         try {
-            await command.execute(interaction);
+            await command.execute({interaction});
         } catch (error) {
             // If it gives an error, then log and return the error as message
             console.error(error);

@@ -4,7 +4,11 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Replies with Pong!'),
-    async execute(...interaction) {
-        await interaction[0].reply('Pong!');
+    async execute({ interaction, message, args }) {
+        if (interaction) {
+            await interaction.reply('Pong!');
+        } else {
+            await message.reply('Pong!');
+        }
     },
 };

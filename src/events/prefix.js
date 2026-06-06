@@ -38,8 +38,16 @@ module.exports = {
 
             // if we found a prefix, setup args; otherwise, this isn't a command
             if (!prefix) return;
-            args = message.content.slice(prefix.length).trim().split(/\s+/);
+            // args = message.content.slice(prefix.length).trim().split(/\s+/);
             // h!test 1 2 3 -> ["test", '1', '2', '3']
+
+            //const [command, ...rest] = message.content.slice(prefix.length);
+            //const rest = "";
+            const [command, ...rest] = message.content
+                .slice(prefix.length)
+                .split(' ');
+            args = [command, rest];
+            // h!test 1 2 3 -> ["test", '1 2 3']
         }
 
         // get the first space-delimited argument after the prefix as the command
@@ -70,7 +78,7 @@ module.exports = {
 
         // If the command exists, then run the execute function in the command
         try {
-            await command.execute(message);
+            await command.execute({ message, args });
         } catch (error) {
             // If it gives an error, then log and return the error as message
             console.error(error);
