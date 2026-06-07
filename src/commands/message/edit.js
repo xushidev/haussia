@@ -1,5 +1,9 @@
 // Edit a message given the message id
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const {
+    SlashCommandBuilder,
+    MessageFlags,
+    PermissionFlagsBits,
+} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,7 +20,8 @@ module.exports = {
                 .setName('message')
                 .setDescription('The message to be replaced with')
                 .setRequired(true),
-        ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute({ interaction, message, args }) {
         if (interaction) {
             try {
@@ -65,17 +70,17 @@ module.exports = {
                 // Receives: Interaction, [["arg1", "arg2", ...]]
                 // arg1 is the link
                 args = args[0];
-    
+
                 // Get all the informations we need
                 const [guild_id, channel_id, message_id] = args
                     .shift()
                     .slice(29)
                     .split('/');
-    
+
                 // Get the original message and the channel
                 const channel = await message.client.channels.fetch(channel_id);
                 const msg = args.join(' ');
-    
+
                 await channel.messages
                     .fetch(message_id)
                     .then((message) => {
@@ -84,9 +89,9 @@ module.exports = {
                     .catch((err) => {
                         console.error(err);
                     });
-    
+
                 // Since message.reply doesn't seem to have an ephemeral option, don't return anything
-    
+
                 //// If everything goes well, return
                 //await message.reply({
                 //    content: 'Message edited!',
@@ -94,7 +99,7 @@ module.exports = {
                 //});
             } catch (error) {
                 // If something goes wrong, log the error
-                console.error(error)
+                console.error(error);
             }
         }
     },

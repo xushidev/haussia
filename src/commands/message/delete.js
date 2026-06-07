@@ -1,5 +1,5 @@
 // Delete a message given the message id
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,7 +10,8 @@ module.exports = {
                 .setName('message-link')
                 .setDescription('The link of the message to be deleted')
                 .setRequired(true),
-        ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute({ interaction, message, args }) {
         if (interaction) {
             try {

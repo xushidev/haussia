@@ -1,5 +1,9 @@
 // Send a message to a certain channel
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const {
+    SlashCommandBuilder,
+    MessageFlags,
+    PermissionFlagsBits,
+} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,7 +20,8 @@ module.exports = {
                 .setName('message')
                 .setDescription('The message to be sent')
                 .setRequired(true),
-        ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute({ interaction, message, args }) {
         // args = ['channel-id message']
         if (interaction) {
