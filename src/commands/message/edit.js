@@ -34,6 +34,39 @@ module.exports = {
 
             // We don't really need the guild_id as we can simply fetch from the channel
             const channel = await client.channels.fetch(channel_id);
+            
+            // Edit the message in the channel
+            await channel.messages
+                .fetch(message_id)
+                .then((message) => {
+                    message.edit(msg);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+
+            // If everything goes well, return a success message
+            await interaction.reply({
+                content: 'Message edited!',
+                flags: MessageFlags.Ephemeral,
+            });
+        } else {
+            //! Todo: should wrap everything into a try catch later
+
+            // Receives: Interaction, [["arg1", "arg2", ...]]
+            // arg1 is the link
+            args = args[0];
+
+            // Get all the informations we need
+            const [guild_id, channel_id, message_id] = args
+                .shift()
+                .slice(29)
+                .split('/');
+            
+            // Get the original message and the channel
+            const channel = await message.client.channels.fetch(channel_id);
+            const msg = args.join(' ');
+
             await channel.messages
                 .fetch(message_id)
                 .then((message) => {
@@ -43,9 +76,13 @@ module.exports = {
                     console.error(err);
                 });
             
-            // If everything goes well, return
-            await interaction.reply({ content: "Message edited!", flags: MessageFlags.Ephemeral})
-        } else {
+            // Since message.reply doesn't seem to have an ephemeral option, don't return anything
+            
+            //// If everything goes well, return
+            //await message.reply({
+            //    content: 'Message edited!',
+            //    flags: MessageFlags.Ephemeral,
+            //});
         }
     },
 };
