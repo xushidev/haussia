@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "deploy::dev": "node src/deploy/cmd.js",
+    "deploy::prod": "node src/deploy/cmd-global.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,15 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "discord.js": "^14.26.4"
+    "@keyv/sqlite": "^4.0.8",
+    "discord.js": "^14.26.4",
+    "keyv": "^5.6.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.0.0",
+    "@eslint/markdown": "^8.0.2",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0"
   }
 }

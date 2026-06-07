@@ -1,0 +1,6 @@
+{
+    "token": "<bot-token-here>",
+    "clientId": "<bot-client-id-here>",
+    "guildId": "<dev-server-id-here>",
+    "globalPrefix": "<global-prefix-here>"
+}
