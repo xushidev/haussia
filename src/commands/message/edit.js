@@ -34,7 +34,7 @@ module.exports = {
 
             // We don't really need the guild_id as we can simply fetch from the channel
             const channel = await client.channels.fetch(channel_id);
-            
+
             // Edit the message in the channel
             await channel.messages
                 .fetch(message_id)
@@ -62,7 +62,7 @@ module.exports = {
                 .shift()
                 .slice(29)
                 .split('/');
-            
+
             // Get the original message and the channel
             const channel = await message.client.channels.fetch(channel_id);
             const msg = args.join(' ');
@@ -75,9 +75,9 @@ module.exports = {
                 .catch((err) => {
                     console.error(err);
                 });
-            
+
             // Since message.reply doesn't seem to have an ephemeral option, don't return anything
-            
+
             //// If everything goes well, return
             //await message.reply({
             //    content: 'Message edited!',

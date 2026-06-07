@@ -1,5 +1,5 @@
 // Delete a message given the message id
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,6 +12,61 @@ module.exports = {
                 .setRequired(true),
         ),
     async execute({ interaction, message, args }) {
-        await interaction.reply('Pong!');
+        if (interaction) {
+            // Get client
+            const client = interaction.client;
+
+            // Parse options
+            const message_link = interaction.options.getString('message-link');
+
+            // message link structure: https://discord.com/channels/{guild-id}/{channel-id}/{message-id}
+            // 29 characters + {guild-id}/{channel-id}/{message-id}
+            const [guild_id, channel_id, message_id] = message_link
+                .slice(29)
+                .split('/');
+
+            // We don't really need the guild_id as we can simply fetch from the channel
+            const channel = await client.channels.fetch(channel_id);
+
+            // Edit the message in the channel
+            await channel.messages
+                .fetch(message_id)
+                .then((message) => {
+                    message.delete();
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+
+            // If everything goes well, return a success message
+            await interaction.reply({
+                content: 'Message deleted!',
+                flags: MessageFlags.Ephemeral,
+            });
+        } else {
+            //! Todo: should wrap everything into a try catch later
+
+            // Receives: Interaction, [["arg1", "arg2", ...]]
+            // arg1 is the link
+            args = args[0];
+
+            // Get all the informations we need
+            const [guild_id, channel_id, message_id] = args
+                .shift()
+                .slice(29)
+                .split('/');
+
+            // Get the original message and the channel
+            const channel = await message.client.channels.fetch(channel_id);
+
+            await channel.messages
+                .fetch(message_id)
+                .then((message) => {
+                    message.delete();
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
     },
 };
