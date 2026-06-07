@@ -48,19 +48,25 @@ module.exports = {
             }
         } else {
             try {
-                // Receives: interaction, [["arg1", "arg2", ...]]
-                // unfortunately args come as [["arg"]]
-                args = args[0];
+                if (
+                    message.member.permissions.has(
+                        PermissionFlagsBits.Administrator,
+                    )
+                ) {
+                    // Receives: interaction, [["arg1", "arg2", ...]]
+                    // unfortunately args come as [["arg"]]
+                    args = args[0];
+                    // Get the channel id as first arg
+                    const channelId = args.shift();
+                    const channel =
+                        await message.client.channels.fetch(channelId);
 
-                // Get the channel id as first arg
-                const channelId = args.shift();
-                const channel = await message.client.channels.fetch(channelId);
+                    // Get the message as 2nd arg (and join them back together)
+                    const msg = args.join(' ');
 
-                // Get the message as 2nd arg (and join them back together)
-                const msg = args.join(' ');
-
-                // Sends the message to the channel:
-                await channel.send(msg);
+                    // Sends the message to the channel:
+                    await channel.send(msg);
+                }
             } catch (error) {
                 // If something goes wrong, log the error
                 console.error(error);

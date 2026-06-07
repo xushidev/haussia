@@ -67,36 +67,43 @@ module.exports = {
             }
         } else {
             try {
-                // Receives: Interaction, [["arg1", "arg2", ...]]
-                // arg1 is the link
-                args = args[0];
+                if (
+                    message.member.permissions.has(
+                        PermissionFlagsBits.Administrator,
+                    )
+                ) {
+                    // Receives: Interaction, [["arg1", "arg2", ...]]
+                    // arg1 is the link
+                    args = args[0];
 
-                // Get all the informations we need
-                const [guild_id, channel_id, message_id] = args
-                    .shift()
-                    .slice(29)
-                    .split('/');
+                    // Get all the informations we need
+                    const [guild_id, channel_id, message_id] = args
+                        .shift()
+                        .slice(29)
+                        .split('/');
 
-                // Get the original message and the channel
-                const channel = await message.client.channels.fetch(channel_id);
-                const msg = args.join(' ');
+                    // Get the original message and the channel
+                    const channel =
+                        await message.client.channels.fetch(channel_id);
+                    const msg = args.join(' ');
 
-                await channel.messages
-                    .fetch(message_id)
-                    .then((message) => {
-                        message.edit(msg);
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    });
+                    await channel.messages
+                        .fetch(message_id)
+                        .then((message) => {
+                            message.edit(msg);
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        });
 
-                // Since message.reply doesn't seem to have an ephemeral option, don't return anything
+                    // Since message.reply doesn't seem to have an ephemeral option, don't return anything
 
-                //// If everything goes well, return
-                //await message.reply({
-                //    content: 'Message edited!',
-                //    flags: MessageFlags.Ephemeral,
-                //});
+                    //// If everything goes well, return
+                    //await message.reply({
+                    //    content: 'Message edited!',
+                    //    flags: MessageFlags.Ephemeral,
+                    //});
+                }
             } catch (error) {
                 // If something goes wrong, log the error
                 console.error(error);
