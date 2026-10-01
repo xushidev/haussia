@@ -60,15 +60,18 @@ module.exports = {
 					// unfortunately args come as [["arg"]]
 					args = args[0];
 					// Get the channel id as first arg
-					const channelId = args.shift();
-					const channel =
-						await message.client.channels.fetch(channelId);
+					const arg_channel = args.shift();
+
+					// detect if the channel is given with #channel_name or is given as id
+					let channel_id = arg_channel.slice(0, 2) == '<#' ? arg_channel.slice(2, -1) : arg_channel;
+
+					const channel = await message.client.channels.fetch(channel_id);
 
 					// Get the message as 2nd arg (and join them back together)
 					const msg = args.join(' ');
 
-					// Sends the message to the channel:
-					await channel.send(msg);
+					// Sends the embed to the channel:
+					await channel.send({ embeds: [new Embed({ description: msg }).toJSON()] });
 				}
 			} catch (error) {
 				// If something goes wrong, log the error
