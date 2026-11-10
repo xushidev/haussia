@@ -5,6 +5,20 @@ const {
 	PermissionFlagsBits,
 } = require('discord.js');
 
+const { Keyv } = require('keyv');
+const { KeyvSqlite } = require('@keyv/sqlite');
+
+// Resolves the path into an absolute path
+const path = require('path');
+const dbPath = path.resolve(__dirname, '../../data/roles.sqlite');
+
+// Database where role permissione are stored
+const roles = new Keyv({
+	store: new KeyvSqlite({
+		uri: `sqlite://${dbPath}`,
+	}),
+});
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('send')
@@ -20,24 +34,33 @@ module.exports = {
 				.setName('message')
 				.setDescription('The message to be sent')
 				.setRequired(true),
-		)
-		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+		),
+	// interaction is Client
 	async execute({ interaction, message, args }) {
 		// args = ['channel-id message']
 		if (interaction) {
 			try {
-				// Returns a TextChannel object
-				const channel = interaction.options.getChannel('channel');
-				const msg = interaction.options.getString('message');
+				// Get the allowed roles
+				let allowed_roles = await roles.get(message.guild.id);
+				// Check if the member has either admin right or
+				// is one of the allowed roles for this command
+				if (
+					message.member.permissions.has(PermissionFlagsBits.Administrator,) ||
+					message.member.roles.cache.some((role) => allowed_roles.includes(role))
+				) {
+					// Returns a TextChannel object
+					const channel = interaction.options.getChannel('channel');
+					const msg = interaction.options.getString('message');
 
-				// Sends the message to the chosen channel
-				await channel.send(msg);
+					// Sends the message to the chosen channel
+					await channel.send(msg);
 
-				// If everything goes well, return a success message
-				await interaction.reply({
-					content: 'Message sent!',
-					flags: MessageFlags.Ephemeral,
-				});
+					// If everything goes well, return a success message
+					await interaction.reply({
+						content: 'Message sent!',
+						flags: MessageFlags.Ephemeral,
+					});
+				}
 			} catch (error) {
 				// If something goes wrong, log an error and return an error message
 				console.error(error);
@@ -48,10 +71,13 @@ module.exports = {
 			}
 		} else {
 			try {
+				// Get the allowed roles
+				let allowed_roles = await roles.get(message.guild.id);
+				// Check if the member has either admin right or
+				// is one of the allowed roles for this command
 				if (
-					message.member.permissions.has(
-						PermissionFlagsBits.Administrator,
-					)
+					message.member.permissions.has(PermissionFlagsBits.Administrator,) ||
+					message.member.roles.cache.some((role) => allowed_roles.includes(role))
 				) {
 					// Receives: interaction, [["arg1", "arg2", ...]]
 					// unfortunately args come as [["arg"]]

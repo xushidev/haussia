@@ -10,89 +10,89 @@ const dbPath = path.resolve(__dirname, '../data/prefix.sqlite');
 
 // Database where prefixes are stored
 const prefixes = new Keyv({
-    store: new KeyvSqlite({
-        uri: `sqlite://${dbPath}`,
-    }),
+	store: new KeyvSqlite({
+		uri: `sqlite://${dbPath}`,
+	}),
 });
 
 module.exports = {
-    name: Events.MessageCreate,
-    async execute(message) {
-        // If the prefix sent is by a bot, then do nothing
-        if (message.author.bot) return;
+	name: Events.MessageCreate,
+	async execute(message) {
+		// If the prefix sent is by a bot, then do nothing
+		if (message.author.bot) return;
 
-        let args;
+		let args;
 
-        // handle messages in a guild
-        if (message.guild) {
-            let prefix;
+		// handle messages in a guild
+		if (message.guild) {
+			let prefix;
 
-            if (message.content.startsWith(globalPrefix)) {
-                prefix = globalPrefix;
-            } else {
-                // check the guild-level prefix
-                const guildPrefix = await prefixes.get(message.guild.id);
-                if (message.content.startsWith(guildPrefix))
-                    prefix = guildPrefix;
-            }
+			if (message.content.startsWith(globalPrefix)) {
+				prefix = globalPrefix;
+			} else {
+				// check the guild-level prefix
+				const guildPrefix = await prefixes.get(message.guild.id);
+				if (message.content.startsWith(guildPrefix))
+					prefix = guildPrefix;
+			}
 
-            // if we found a prefix, setup args; otherwise, this isn't a command
-            if (!prefix) return;
-            // args = message.content.slice(prefix.length).trim().split(/\s+/);
-            // h!test 1 2 3 -> ["test", '1', '2', '3']
+			// if we found a prefix, setup args; otherwise, this isn't a command
+			if (!prefix) return;
+			// args = message.content.slice(prefix.length).trim().split(/\s+/);
+			// h!test 1 2 3 -> ["test", '1', '2', '3']
 
-            //const [command, ...rest] = message.content.slice(prefix.length);
-            //const rest = "";
-            const [command, ...rest] = message.content
-                .slice(prefix.length)
-                .split(' ');
-            args = [command, rest];
-            // h!test 1 2 3 -> ["test", '1 2 3']
-        }
+			//const [command, ...rest] = message.content.slice(prefix.length);
+			//const rest = "";
+			const [command, ...rest] = message.content
+				.slice(prefix.length)
+				.split(' ');
+			args = [command, rest];
+			// h!test 1 2 3 -> ["test", '1 2 3']
+		}
 
-        // get the first space-delimited argument after the prefix as the command
-        const commandName = args.shift().toLowerCase();
-        // h!test 1 2 3 -> "test"
+		// get the first space-delimited argument after the prefix as the command
+		const commandName = args.shift().toLowerCase();
+		// h!test 1 2 3 -> "test"
 
-        if (commandName === 'prefix') {
-            // if there's at least one argument, set the prefix
-            if (args.length) {
-                await prefixes.set(message.guild.id, args[0]);
-                return message.channel.send(
-                    `Successfully set prefix to \`${args[0]}\``,
-                );
-            }
+		if (commandName === 'prefix') {
+			// if there's at least one argument, set the prefix
+			if (args.length) {
+				await prefixes.set(message.guild.id, args[0]);
+				return message.channel.send(
+					`Successfully set prefix to \`${args[0]}\``,
+				);
+			}
 
-            return message.channel.send(
-                `Prefix is \`${(await prefixes.get(message.guild.id)) || globalPrefix}\``,
-            );
-        }
+			return message.channel.send(
+				`Prefix is \`${(await prefixes.get(message.guild.id)) || globalPrefix}\``,
+			);
+		}
 
-        // Get the command's name
-        const command = message.client.commands.get(commandName);
-        // If the command doesn't exists, log an error
-        if (!command) {
-            console.error(`No command matching ${commandName} was found.`);
-            return;
-        }
+		// Get the command's name
+		const command = message.client.commands.get(commandName);
+		// If the command doesn't exists, log an error
+		if (!command) {
+			console.error(`No command matching ${commandName} was found.`);
+			return;
+		}
 
-        // If the command exists, then run the execute function in the command
-        try {
-            await command.execute({ message, args });
-        } catch (error) {
-            // If it gives an error, then log and return the error as message
-            console.error(error);
-            if (message.replied || message.deferred) {
-                await message.followUp({
-                    content: 'There was an error while executing this command!',
-                    flags: MessageFlags.Ephemeral,
-                });
-            } else {
-                await message.reply({
-                    content: 'There was an error while executing this command!',
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
-        }
-    },
+		// If the command exists, then run the execute function in the command
+		try {
+			await command.execute({ message, args });
+		} catch (error) {
+			// If it gives an error, then log and return the error as message
+			console.error(error);
+			if (message.replied || message.deferred) {
+				await message.followUp({
+					content: 'There was an error while executing this command!',
+					flags: MessageFlags.Ephemeral,
+				});
+			} else {
+				await message.reply({
+					content: 'There was an error while executing this command!',
+					flags: MessageFlags.Ephemeral,
+				});
+			}
+		}
+	},
 };
