@@ -1,3 +1,7 @@
+<div align="center">
+    <img src="./assets/icons/Haussia_icon.png" width="300" alt="Haussia Icon">
+</div>
+
 # Haussia
 
 A simple bot for managing messages in Discord, built out of necessity and passion.
@@ -8,7 +12,8 @@ Haussia is a relatively simple bot to manage messages in Discord, the use case i
 The bot is built on top of [Discord.js](https://discord.js.org) using JavaScript, it uses Keyv + SQLite to store data locally.
 
 ### Screenshots
-Atleast one relavant screenshot of the program
+
+<img src="./assets/screenshots/usage_screenshot.png" width="300" alt="Usage screenshot">
 
 ## Getting Started
 
@@ -27,6 +32,7 @@ Atleast one relavant screenshot of the program
 * You will need to get "Application ID" (or Client ID) from [Discord's Developer Portal](https://discord.com/developers/home)
 * You will also need to get the "Client Secret" from the Developer Portal (both of which you can find in your discord application's OAuth2 Page)
 * You should give the bot the appropriate permissions during installation (Overview > Installation) where under the guild install it needs `application.commands` and `bot` scope with the following minimum required permissions: `embed links`, `view channels`, `view audit log`, `send messages`; any other permissions the bot may have is up to you.
+* You will also need to enable the `Server Members Intent` and `Message Content Intent` under the "bot" pannel under the "priviledged intent" section.
 * To install `nodejs` dependencies you will have to be inside the repository's directory and run `npm install`
 * Upload the commands using `npm run deploy::prod` to the discord bot
 * Enable the databases by creating two empty files named `prefix.sqlite` and `roles.sqlite` under the `src/data/` folder from the root of the repository
