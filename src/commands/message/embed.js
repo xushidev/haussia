@@ -35,8 +35,7 @@ module.exports = {
 				.setName('message')
 				.setDescription('The message to be sent')
 				.setRequired(true),
-		)
-		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+		),
 	async execute({ interaction, message, args }) {
 		// args = ['channel-id message']
 		if (interaction) {

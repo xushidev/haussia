@@ -34,8 +34,7 @@ module.exports = {
 				.setName('message')
 				.setDescription('The message to be replaced with')
 				.setRequired(true),
-		)
-		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+		),
 	async execute({ interaction, message, args }) {
 		if (interaction) {
 			try {

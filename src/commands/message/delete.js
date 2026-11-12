@@ -28,8 +28,7 @@ module.exports = {
 				.setName('message-link')
 				.setDescription('The link of the message to be deleted')
 				.setRequired(true),
-		)
-		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+		),
 	async execute({ interaction, message, args }) {
 		if (interaction) {
 			try {
