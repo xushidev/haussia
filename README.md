@@ -26,6 +26,7 @@ Atleast one relavant screenshot of the program
 * `cd` into the directory where you want to store the repository and run `git clone https://github.com/xushidev/haussia.git` (or the codeberg upstream if you want)
 * You will need to get "Application ID" (or Client ID) from [Discord's Developer Portal](https://discord.com/developers/home)
 * You will also need to get the "Client Secret" from the Developer Portal (both of which you can find in your discord application's OAuth2 Page)
+* You should give the bot the appropriate permissions during installation (Overview > Installation) where under the guild install it needs `application.commands` and `bot` scope with the following minimum required permissions: `embed links`, `view channels`, `view audit log`, `send messages`; any other permissions the bot may have is up to you.
 * To install `nodejs` dependencies you will have to be inside the repository's directory and run `npm install`
 * Upload the commands using `npm run deploy::prod` to the discord bot
 * Enable the databases by creating two empty files named `prefix.sqlite` and `roles.sqlite` under the `src/data/` folder from the root of the repository
@@ -53,6 +54,8 @@ npm run start
 ```
 
 Should there be a need to eliminate the databases, you can simply remove the databases from the `src/data/` folder and recreate them as empty files (with the same name as before).
+
+If Haussia seems not to be working well with embedded images (as in, she isn't turning links into images), check if you have given it the `embed links` permission during the installation settings.
 
 ## License
 
