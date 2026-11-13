@@ -41,7 +41,7 @@ module.exports = {
 		if (interaction) {
 			try {
 				// Get the allowed roles
-				let allowed_roles = await roles.get(message.guild.id);
+				let allowed_roles = await roles.get(interaction.guild.id);
 				// Check if the member has either admin right or
 				// is one of the allowed roles for this command
 				if (

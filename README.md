@@ -52,6 +52,20 @@ The bot is built on top of [Discord.js](https://discord.js.org) using JavaScript
 * run `npm run start` to start the bot
 * test out in your discord server of choice (where you added your bot) using the `/ping` command or simply sending a message with `<your-global-prefix>ping`
 
+### Usage
+
+Haussia contains many commands, noticeably the following:
+* `/ping` simple ping command
+* `/send <channel> <message>` sends a message to a certain channel
+* `/edit <message-id> <new-message>` edits a previously sent message by the bot
+* `/delete <message-id>` deletes a previously sent message by the bot
+* `/embed <channel> <message>` sends an embed to a certain channel (note that you can't use `/edit` command on an embed)
+
+For utilities and role scoping, she has the following commands instead:
+* `/perms_add <allowed-role>` adds a certain role to the scope for those allowed to use the bot
+* `/perms_show` shows every role that's allowed to use the bot
+* `/perms_remove <to-be-removed-role>` removes a certain role from being able to use the bot
+
 ## Help
 
 Most of the issues caused by crashes of the bot can be simply fixed by restarting the bot (in it's repository):
