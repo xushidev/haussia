@@ -1,5 +1,5 @@
 
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, PermissionFlagsBits } = require('discord.js');
 
 const { Keyv } = require('keyv');
 const { KeyvSqlite } = require('@keyv/sqlite');
