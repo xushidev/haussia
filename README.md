@@ -30,7 +30,7 @@ The bot is built on top of [Discord.js](https://discord.js.org) using JavaScript
 * Note that there is no specific installation path for running the bot, you can put it almost anywhere
 * `cd` into the directory where you want to store the repository and run `git clone https://github.com/xushidev/haussia.git` (or the codeberg upstream if you want)
 * You will need to get "Application ID" (or Client ID) from [Discord's Developer Portal](https://discord.com/developers/home)
-* You will also need to get the "Client Secret" from the Developer Portal (both of which you can find in your discord application's OAuth2 Page)
+* You will also need to get the "Token" from the Developer Portal (both of which you can find in your discord application's Bot Page)
 * You should give the bot the appropriate permissions during installation (Overview > Installation) where under the guild install it needs `application.commands` and `bot` scope with the following minimum required permissions: `embed links`, `view channels`, `view audit log`, `send messages`; any other permissions the bot may have is up to you.
 * You will also need to enable the `Server Members Intent` and `Message Content Intent` under the "bot" pannel under the "priviledged intent" section.
 * To install `nodejs` dependencies you will have to be inside the repository's directory and run `npm install`
@@ -41,7 +41,7 @@ The bot is built on top of [Discord.js](https://discord.js.org) using JavaScript
 
 * Rename the `config.example.json` into `config.json`
 * Use your editor of choice to modify the parameters inside:
-    * Paste your "Client Secret" as "Token" value
+    * Paste your "Token" as "Token" value
     * Paste your "Client ID" as "clientId" value
     * (only if you want to test it out in a test server) copy your server's ID (by right clicking your test discord server icon and selecting "Copy Server ID") and paste it instead of "guildId"
     * Insert a global prefix you want as the value of "globalPrefix"
