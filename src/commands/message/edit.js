@@ -43,8 +43,8 @@ module.exports = {
 				// Check if the member has either admin right or
 				// is one of the allowed roles for this command
 				if (
-					message.member.permissions.has(PermissionFlagsBits.Administrator,) ||
-					message.member.roles.cache.some((role) => allowed_roles.includes(role))
+					interaction.member.permissions.has(PermissionFlagsBits.Administrator,) ||
+					interaction.member.roles.cache.some((role) => allowed_roles.includes(role.id))
 				) {
 					// Get client
 					const client = interaction.client;
@@ -95,7 +95,7 @@ module.exports = {
 				// is one of the allowed roles for this command
 				if (
 					message.member.permissions.has(PermissionFlagsBits.Administrator,) ||
-					message.member.roles.cache.some((role) => allowed_roles.includes(role))
+					message.member.roles.cache.some((role) => allowed_roles.includes(role.id))
 				) {
 					// Receives: Interaction, [["arg1", "arg2", ...]]
 					// arg1 is the link

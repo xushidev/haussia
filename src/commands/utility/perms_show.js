@@ -27,8 +27,8 @@ module.exports = {
 				// Check if the member has either admin right or
 				// is one of the allowed roles for this command
 				if (
-					message.member.permissions.has(PermissionFlagsBits.Administrator,) ||
-					message.member.roles.cache.some((role) => allowed_roles.includes(role))
+					interaction.member.permissions.has(PermissionFlagsBits.Administrator,) ||
+					interaction.member.roles.cache.some((role) => allowed_roles.includes(role.id))
 				) {
 					// Args is useless, we are just gonna show the list of roles and that's it
 					if (await roles.get(interaction.guild.id)) {
@@ -65,7 +65,7 @@ module.exports = {
 				// is one of the allowed roles for this command
 				if (
 					message.member.permissions.has(PermissionFlagsBits.Administrator,) ||
-					message.member.roles.cache.some((role) => allowed_roles.includes(role))
+					message.member.roles.cache.some((role) => allowed_roles.includes(role.id))
 				) {
 					// Args is useless, we are just gonna show the list of roles and that's it
 					if (await roles.get(message.guild.id)) {

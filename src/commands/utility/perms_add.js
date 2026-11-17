@@ -30,8 +30,8 @@ module.exports = {
 				// Check if the member has either admin right or
 				// is one of the allowed roles for this command
 				if (
-					message.member.permissions.has(PermissionFlagsBits.Administrator,) ||
-					message.member.roles.cache.some((role) => allowed_roles.includes(role))
+					interaction.member.permissions.has(PermissionFlagsBits.Administrator,) ||
+					interaction.member.roles.cache.some((role) => allowed_roles.includes(role.id))
 				) {
 					// get the role we need
 					let role = interaction.options.getRole("role");
@@ -81,7 +81,7 @@ module.exports = {
 				// is one of the allowed roles for this command
 				if (
 					message.member.permissions.has(PermissionFlagsBits.Administrator,) ||
-					message.member.roles.cache.some((role) => allowed_roles.includes(role))
+					message.member.roles.cache.some((role) => allowed_roles.includes(role.id))
 				) {
 					// ["role1", "role2"]
 					args = args[0];
