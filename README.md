@@ -49,7 +49,7 @@ The bot is built on top of [Discord.js](https://discord.js.org) using JavaScript
 ### Executing program
 
 * `cd` into the repository's directory
-* run `npm run start` to start the bot
+* run `npm run start` to start the bot; alternatively you can use `nix` (with `nix-commands` enabled) and just do `nix run`
 * test out in your discord server of choice (where you added your bot) using the `/ping` command or simply sending a message with `<your-global-prefix>ping`
 
 ### Usage
